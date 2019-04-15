@@ -1,0 +1,31 @@
+[submodule "openembedded-core"]
+	path = openembedded-core
+	url = git://git.openembedded.org/openembedded-core
+	branch = thud
+[submodule "bitbake"]
+	path = bitbake
+	url = git://git.openembedded.org/bitbake
+	branch = 1.40
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
+	branch = thud
+[submodule "meta-sancloud"]
+	path = meta-sancloud
+	url = https://github.com/SanCloudLtd/meta-sancloud.git
+	branch = thud
+[submodule "meta-ti"]
+	path = meta-ti
+	url = https://git.yoctoproject.org/git/meta-ti
+	branch = thud
+[submodule "meta-rtlwifi"]
+	path = meta-rtlwifi
+	url = https://github.com/EmbeddedAndroid/meta-rtlwifi.git
+[submodule "meta-linaro"]
+	path = meta-linaro
+	url = https://git.linaro.org/openembedded/meta-linaro.git
+	branch = thud
+[submodule "meta-arago"]
+	path = meta-arago
+	url = git://arago-project.org/git/meta-arago.git
+	branch = thud
