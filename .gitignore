@@ -1,0 +1,11 @@
+/build/bitbake.lock
+/build/cache
+/build/conf/sanity_info
+/build/tmp*
+/build/downloads
+/build/sstate-cache
+/build/buildhistory
+/build/pn-buildlist
+/build/*.dot
+/images-bbe
+*.log
