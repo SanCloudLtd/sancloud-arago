@@ -29,3 +29,13 @@
 	path = meta-arago
 	url = git://arago-project.org/git/meta-arago.git
 	branch = thud
+[submodule "meta-browser"]
+	path = meta-browser
+	url = https://github.com/OSSystems/meta-browser.git
+[submodule "meta-qt5"]
+	path = meta-qt5
+	url = https://github.com/meta-qt5/meta-qt5.git
+	branch = thud
+[submodule "meta-rust"]
+	path = meta-rust
+	url = https://github.com/meta-rust/meta-rust.git
