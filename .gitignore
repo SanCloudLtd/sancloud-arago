@@ -1,6 +1,7 @@
 /build/bitbake.lock
 /build/cache
 /build/conf/sanity_info
+/build/conf/site.conf
 /build/tmp*
 /build/downloads
 /build/sstate-cache
