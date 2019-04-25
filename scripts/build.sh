@@ -3,13 +3,26 @@
 set -e
 
 ORIG_WORKDIR="`pwd`"
+OUTDIR="images-bbe"
 
 ################################################################################
 # Parse arguments
 ################################################################################
-if [[ "$1" == "--sdk" ]]; then
-    BUILD_SDK=yes
-fi
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --sdk)
+            BUILD_SDK=yes
+            ;;
+        --rt)
+            export BBE_RT_KERNEL=1
+            OUTDIR="${OUTDIR}-rt"
+            ;;
+        *)
+            break;
+            ;;
+    esac
+    shift
+done
 
 ################################################################################
 # Build
@@ -24,7 +37,6 @@ fi
 # Capture artifacts
 ################################################################################
 cd "${ORIG_WORKDIR}"
-OUTDIR="images-bbe"
 mkdir -p "${OUTDIR}"
 git show --pretty="format:%H%n%ai%n%an <%ae>%n%s%n" -q > "${OUTDIR}/COMMIT.txt"
 if ! git diff-index --quiet HEAD; then
