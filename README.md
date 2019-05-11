@@ -1,3 +1,5 @@
+[<img align=right src="https://www.sancloud.co.uk/wp-content/uploads/2016/09/sancloud_and_address_web.png">](https://www.sancloud.co.uk/)
+
 Pre-integrated Arago distribution for Sancloud Hardware
 =======================================================
 
