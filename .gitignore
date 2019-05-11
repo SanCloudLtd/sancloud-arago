@@ -4,5 +4,5 @@
 !/build/conf/bblayers.conf
 !/build/conf/local.conf
 !/build/conf/setenv
-/images-bbe
+/images-*
 *.log
