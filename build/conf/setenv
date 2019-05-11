@@ -1,4 +1,5 @@
-export YOCTO_BUILD_BASE=$(realpath $(dirname $BASH_SOURCE)/../..)
+export YOCTO_BUILD_BASE="$(realpath $(dirname $BASH_SOURCE)/../..)"
+export YOCTO_SOURCES="${YOCTO_BUILD_BASE}/sources"
 export TOPDIR="${YOCTO_BUILD_BASE}/build"
 export BUILDDIR="${TOPDIR}"
 
@@ -7,9 +8,8 @@ export BB_ENV_EXTRAWHITE="ALL_PROXY BB_NO_NETWORK BB_NUMBER_THREADS \
     HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE \
     SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC \
     TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy \
-    YOCTO_BUILD_BASE BBE_RT_KERNEL"
+    YOCTO_BUILD_BASE YOCTO_SOURCES BBE_RT_KERNEL"
 
-export PATH="/opt/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf/bin:${PATH}"
-export PATH="${YOCTO_BUILD_BASE}/openembedded-core/scripts:${YOCTO_BUILD_BASE}/bitbake/bin:${PATH}"
+export PATH="${YOCTO_SOURCES}/openembedded-core/scripts:${YOCTO_SOURCES}/bitbake/bin:${PATH}"
 
 cd "${TOPDIR}"
