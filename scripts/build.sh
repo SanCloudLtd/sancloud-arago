@@ -33,6 +33,9 @@ if [[ "$BUILD_SDK" == "yes" ]]; then
     bitbake core-image-base -c populate_sdk
 fi
 
+# Find the deploy directory
+DEPLOY_DIR="`bitbake -e | sed -n -e 's/^DEPLOY_DIR="\(.*\)"$/\1/p'`"
+
 ################################################################################
 # Capture artifacts
 ################################################################################
@@ -42,8 +45,8 @@ git show --pretty="format:%H%n%ai%n%an <%ae>%n%s%n" -q > "${OUTDIR}/COMMIT.txt"
 if ! git diff-index --quiet HEAD; then
     echo 'DIRTY' >> "${OUTDIR}/COMMIT.txt"
 fi
-cp "build/tmp/deploy/images/bbe/core-image-base-bbe.wic.xz" "${OUTDIR}/core-image-base.wic.xz"
-cp "build/tmp/deploy/images/bbe/core-image-base-bbe.wic.bmap" "${OUTDIR}/core-image-base.wic.bmap"
+cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.xz" "${OUTDIR}/core-image-base.wic.xz"
+cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.bmap" "${OUTDIR}/core-image-base.wic.bmap"
 if [[ "$BUILD_SDK" == "yes" ]]; then
-    cp "build/tmp/deploy/sdk/arago-2019.03-toolchain-2019.03.sh" "${OUTDIR}/"
+    cp "${DEPLOY_DIR}/sdk/arago-2019.03-toolchain-2019.03.sh" "${OUTDIR}/"
 fi
