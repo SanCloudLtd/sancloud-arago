@@ -41,7 +41,7 @@ DEPLOY_DIR="`bitbake -e | sed -n -e 's/^DEPLOY_DIR="\(.*\)"$/\1/p'`"
 ################################################################################
 cd "${ORIG_WORKDIR}"
 mkdir -p "${OUTDIR}"
-git show --pretty="format:%H%n%ai%n%an <%ae>%n%s%n" -q > "${OUTDIR}/COMMIT.txt"
+git show --pretty="format:%H%n%ai%n%an <%ae>%n%s%n"> "${OUTDIR}/COMMIT.txt"
 if ! git diff-index --quiet HEAD; then
     echo 'DIRTY' >> "${OUTDIR}/COMMIT.txt"
 fi
