@@ -28,9 +28,9 @@ done
 # Build
 ################################################################################
 source build/conf/setenv
-bitbake core-image-base
+bitbake core-image-base tisdk-rootfs-image
 if [[ "$BUILD_SDK" == "yes" ]]; then
-    bitbake core-image-base -c populate_sdk
+    bitbake tisdk-rootfs-image -c populate_sdk
 fi
 
 # Find the deploy directory
@@ -47,6 +47,8 @@ if ! git diff-index --quiet HEAD; then
 fi
 cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.xz" "${OUTDIR}/core-image-base.wic.xz"
 cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.bmap" "${OUTDIR}/core-image-base.wic.bmap"
+cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.xz" "${OUTDIR}/tisdk-rootfs-image.wic.xz"
+cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.bmap" "${OUTDIR}/tisdk-rootfs-image.wic.bmap"
 if [[ "$BUILD_SDK" == "yes" ]]; then
     cp "${DEPLOY_DIR}/sdk/arago-2019.03-toolchain-2019.03.sh" "${OUTDIR}/"
 fi
