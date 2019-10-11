@@ -15,3 +15,5 @@ EOF
 
 mkdir -p "${CI_CACHE_DIR}/downloads"
 mkdir -p "${CI_CACHE_DIR}/sstate-cache"
+
+./patches/apply.py
