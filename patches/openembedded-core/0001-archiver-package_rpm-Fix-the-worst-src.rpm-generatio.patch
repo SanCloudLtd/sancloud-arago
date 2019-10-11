@@ -1,0 +1,63 @@
+From c6e151ba7fe0f14044537cf0ab2cac436f1496e3 Mon Sep 17 00:00:00 2001
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 5 Feb 2019 22:14:26 +0000
+Subject: [PATCH] archiver/package_rpm: Fix the worst src.rpm generation race
+
+The package_rpm code is writing outside the task's sstate directory into
+the sstate of do_deploy_archives. This is "out of spec" since if the
+task is installed from sstate, the files are not restored. This means
+the files may appear/disappear, things are not deterministic and there are
+races.
+
+Extend the do_package_write_rpm code to handle writing the src.rpm into
+place to avoid these issues. There are other problems but this avoids races
+around this file.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/archiver.bbclass    | 6 ++++++
+ meta/classes/package_rpm.bbclass | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index e321a0e362..af9f010dfc 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -37,8 +37,11 @@ ARCHIVER_MODE[recipe] ?= "0"
+ DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+ ARCHIVER_TOPDIR ?= "${WORKDIR}/deploy-sources"
+ ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
++ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
++ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
+ ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
+ 
++
+ do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
+@@ -117,6 +120,9 @@ python () {
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == "1" and d.getVar('PACKAGES'):
+         if "package_rpm" in d.getVar('PACKAGE_CLASSES'):
+             d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_package_write_rpm' % pn)
++            d.appendVarFlag('do_package_write_rpm', 'dirs', ' ${ARCHIVER_RPMTOPDIR}')
++            d.appendVarFlag('do_package_write_rpm', 'sstate-inputdirs', ' ${ARCHIVER_RPMTOPDIR}')
++            d.appendVarFlag('do_package_write_rpm', 'sstate-outputdirs', ' ${DEPLOY_DIR_SRC}')
+             if ar_dumpdata == "1":
+                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_dumpdata' % pn)
+             if ar_recipe == "1":
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 5dafb3e7cb..1a64cb271a 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -694,7 +694,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_tmppath " + workdir + "'"
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+         cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+-        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_OUTDIR') + "'"
++        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
+         cmdsrpm = cmdsrpm + " -bs " + outspecfile
+         # Build the .src.rpm
+         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+-- 
+2.23.0
+
