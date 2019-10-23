@@ -8,6 +8,8 @@ echo "Preparing for release build"
 cat > build/conf/local-release.conf << EOF
 INHERIT += "archiver"
 BB_GENERATE_MIRROR_TARBALLS = "1"
+BB_GENERATE_SHALLOW_TARBALLS = "1"
+BB_GIT_SHALLOW = "1"
 ARCHIVER_MODE[src] = "mirror"
 ARCHIVER_MODE[mirror] = "combined"
 ARCHIVER_MIRROR_EXCLUDE = "file://"
