@@ -39,3 +39,6 @@
 [submodule "meta-rust"]
 	path = sources/meta-rust
 	url = https://github.com/meta-rust/meta-rust.git
+[submodule "sources/meta-clang"]
+	path = sources/meta-clang
+	url = https://github.com/kraj/meta-clang.git
