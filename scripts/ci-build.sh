@@ -2,6 +2,12 @@
 
 set -e
 
+mkdir images-bbe
+OUTDIR=`realpath images-bbe`
+
+################################################################################
+# Prepare
+################################################################################
 cat >> build/conf/local.conf << EOF
 INHERIT += "archiver"
 BB_GENERATE_MIRROR_TARBALLS = "1"
@@ -32,7 +38,24 @@ file://.* https://cdn.archaea.dev/file/sancloud-yocto/arago/sstate/PATH \n"
 EOF
 
 ./patches/apply.py
-./scripts/build.sh
 
-# Capture licenses
-tar czf images-bbe/licenses.tar.gz -C build/tmp/deploy licenses
+################################################################################
+# Build
+################################################################################
+source build/conf/setenv
+bitbake core-image-base tisdk-rootfs-image | \
+        tee "${OUTDIR}/build.log" | \
+        sed -e '/^NOTE: .*Started$/d' -e '/^NOTE: Running /d'
+
+# Find the deploy directory
+DEPLOY_DIR="`bitbake -e | sed -n -e 's/^DEPLOY_DIR="\(.*\)"$/\1/p'`"
+
+################################################################################
+# Capture artifacts
+################################################################################
+cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.xz" "${OUTDIR}/core-image-base.wic.xz"
+cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.bmap" "${OUTDIR}/core-image-base.wic.bmap"
+cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.xz" "${OUTDIR}/tisdk-rootfs-image.wic.xz"
+cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.bmap" "${OUTDIR}/tisdk-rootfs-image.wic.bmap"
+tar czf "${OUTDIR}/licenses.tar.gz" -C "${DEPLOY_DIR}" licenses
+gzip "${OUTDIR}/build.log"

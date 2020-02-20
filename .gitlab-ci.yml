@@ -11,9 +11,10 @@ build:
     - rclone config create b2 b2 account $B2_KEY_ID key $B2_APP_KEY > /dev/null
     - git config --global user.name "Sancloud CI"
     - git config --global user.email "noreply@sancloud.co.uk"
+  after_script:
+    - rm -rf build
   script:
     - ./scripts/ci-build.sh
-    - rclone copy -v --ignore-existing build/sstate-cache/ b2:sancloud-yocto/arago/sstate/
-    - rclone copy -v --ignore-existing build/tmp/deploy/sources/mirror/ b2:sancloud-yocto/mirror/
-    - rclone sync -v images-bbe/ b2:sancloud-yocto/arago/builds/$CI_COMMIT_REF_SLUG/
-    - rm -rf build
+    - rclone copy --ignore-existing build/sstate-cache/ b2:sancloud-yocto/arago/sstate/
+    - rclone copy --ignore-existing build/tmp/deploy/sources/mirror/ b2:sancloud-yocto/mirror/
+    - rclone sync images-bbe/ b2:sancloud-yocto/arago/builds/$CI_COMMIT_REF_SLUG/
