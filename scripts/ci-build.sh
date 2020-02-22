@@ -43,7 +43,10 @@ EOF
 # Build
 ################################################################################
 source build/conf/setenv
-bitbake core-image-base tisdk-rootfs-image | \
+( bitbake --setscene-only core-image-base tisdk-rootfs-image || true ) | \
+        tee "${OUTDIR}/build-setscene.log" | \
+        sed -e '/^NOTE: .*Started$/d' -e '/^NOTE: Running /d'
+bitbake --skip-setscene core-image-base tisdk-rootfs-image | \
         tee "${OUTDIR}/build.log" | \
         sed -e '/^NOTE: .*Started$/d' -e '/^NOTE: Running /d'
 
@@ -58,4 +61,5 @@ cp "${DEPLOY_DIR}/images/bbe/core-image-base-bbe.wic.bmap" "${OUTDIR}/core-image
 cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.xz" "${OUTDIR}/tisdk-rootfs-image.wic.xz"
 cp "${DEPLOY_DIR}/images/bbe/tisdk-rootfs-image-bbe.wic.bmap" "${OUTDIR}/tisdk-rootfs-image.wic.bmap"
 tar czf "${OUTDIR}/licenses.tar.gz" -C "${DEPLOY_DIR}" licenses
+gzip "${OUTDIR}/build-setscene.log"
 gzip "${OUTDIR}/build.log"
