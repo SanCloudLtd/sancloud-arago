@@ -15,6 +15,6 @@ build:
     - rm -rf build
   script:
     - ./scripts/ci-build.sh
-    - rclone copy --ignore-existing build/sstate-cache/ b2:sancloud-yocto/arago/sstate/
-    - rclone copy --ignore-existing build/tmp/deploy/sources/mirror/ b2:sancloud-yocto/mirror/
-    - rclone sync images-bbe/ b2:sancloud-yocto/arago/builds/$CI_COMMIT_REF_SLUG/
+    - rclone copy --ignore-existing build/sstate-cache/ b2:sc-yocto/arago/sstate/
+    - rclone copy --ignore-existing build/tmp/deploy/sources/mirror/ b2:sc-yocto/mirror/
+    - rclone sync images-bbe/ b2:sc-yocto/arago/builds/$CI_COMMIT_REF_SLUG/

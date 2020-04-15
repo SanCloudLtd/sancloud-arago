@@ -19,22 +19,22 @@ ARCHIVER_MIRROR_EXCLUDE = "file://"
 COPYLEFT_LICENSE_INCLUDE = "*"
 
 PREMIRRORS ??= "\
-bzr://.*/.*   https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-cvs://.*/.*   https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-git://.*/.*   https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-gitsm://.*/.* https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-hg://.*/.*    https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-osc://.*/.*   https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-p4://.*/.*    https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-svn://.*/.*   https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n"
+bzr://.*/.*   https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+cvs://.*/.*   https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+git://.*/.*   https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+gitsm://.*/.* https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+hg://.*/.*    https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+osc://.*/.*   https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+p4://.*/.*    https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+svn://.*/.*   https://cdn.archaea.dev/file/sc-yocto/mirror/ \n"
 
 MIRRORS =+ "\
-ftp://.*/.*      https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-http://.*/.*     https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n \
-https://.*/.*    https://cdn.archaea.dev/file/sancloud-yocto/mirror/ \n"
+ftp://.*/.*      https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+http://.*/.*     https://cdn.archaea.dev/file/sc-yocto/mirror/ \n \
+https://.*/.*    https://cdn.archaea.dev/file/sc-yocto/mirror/ \n"
 
 SSTATE_MIRRORS =+ "\
-file://.* https://cdn.archaea.dev/file/sancloud-yocto/arago/sstate/PATH \n"
+file://.* https://cdn.archaea.dev/file/sc-yocto/arago/sstate/PATH \n"
 EOF
 
 ./patches/apply.py
