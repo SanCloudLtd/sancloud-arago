@@ -6,7 +6,7 @@ stages:
 
 build:
   stage: build
-  image: registry.gitlab.com/archaea/build-images/buildimg-yocto:latest
+  image: registry.gitlab.com/sancloudltd/buildimg/gcc-arm-8.3:latest
   before_script:
     - rclone config create b2 b2 account $B2_KEY_ID key $B2_APP_KEY > /dev/null
     - git config --global user.name "Sancloud CI"
