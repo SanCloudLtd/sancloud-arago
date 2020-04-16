@@ -1,0 +1,38 @@
+From 099dccf51abd8e3326d304f751b24d7b608909a8 Mon Sep 17 00:00:00 2001
+From: Paul Barker <pbarker@konsulko.com>
+Date: Thu, 16 Apr 2020 09:41:59 +0100
+Subject: [PATCH] fetch2/wget: Set User-Agent when checking status of a URL
+To: bitbake-devel@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+When a website is behind a CDN like Cloudflare there may be a "Browser
+Integrity Check" or other test applied to requests before they are
+allowed through to the server. Downloading via wget passes these tests
+as headers are set appropriately, however the Python urllib module may
+fail these tests unless additional headers are set. This causes
+Wget.checkstatus() to fail where Wget.download() would actually succeed.
+
+For Cloudflare in particular a valid User-Agent is needed, it's easy to
+add this to the headers in Wget.checkstatus(). The user agent string is
+copied from Wget._fetch_index().
+
+Signed-off-by: Paul Barker <pbarker@konsulko.com>
+---
+ lib/bb/fetch2/wget.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lib/bb/fetch2/wget.py b/lib/bb/fetch2/wget.py
+index 5235ae4d..f7d1de26 100644
+--- a/lib/bb/fetch2/wget.py
++++ b/lib/bb/fetch2/wget.py
+@@ -300,6 +300,7 @@ class Wget(FetchMethod):
+             # Some servers (FusionForge, as used on Alioth) require that the
+             # optional Accept header is set.
+             r.add_header("Accept", "*/*")
++            r.add_header("User-Agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.12) Gecko/20101027 Ubuntu/9.10 (karmic) Firefox/3.6.12")
+             def add_basic_auth(login_str, request):
+                 '''Adds Basic auth to http request, pass in login:password as string'''
+                 import base64
+-- 
+2.20.1
+
