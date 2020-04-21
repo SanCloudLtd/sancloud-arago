@@ -11,6 +11,8 @@ build:
     - rclone config create b2 b2 account $B2_KEY_ID key $B2_APP_KEY > /dev/null
     - git config --global user.name "Sancloud CI"
     - git config --global user.email "noreply@sancloud.co.uk"
+  after_script:
+    - rm -rf build
   script:
     - ./scripts/ci-build.sh
     - rclone copy --ignore-existing build/sstate-cache/ b2:sc-yocto/arago/sstate-thud/
